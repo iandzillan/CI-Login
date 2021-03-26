@@ -11,6 +11,12 @@
 								<div class="p-5">
 									<div class="text-center">
 										<h1 class="h4 text-gray-900 mb-4">CI Login</h1>
+										<?php if ($this->session->flashdata('success')) : ?>
+											<div class="alert alert-success" role="alert">
+												Your account has been <?= $this->session->flashdata('success'); ?>, please login!
+											</div>
+											<?php $this->session->unset_userdata('success') ?>
+										<?php endif; ?>
 									</div>
 									<form class="user">
 										<div class="form-group">
