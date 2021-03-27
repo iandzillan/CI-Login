@@ -110,7 +110,13 @@ class Auth extends CI_Controller
 					];
 					// Store user data to session
 					$this->session->set_userdata($data);
-					// redirect to homepage user
+					// Check role of the user 
+					if ($data['role_id'] == 1) {
+						redirect('admin');
+					} else {
+						redirect('user');
+					}
+
 					redirect('user');
 				} else {
 					// If password false, give the information
