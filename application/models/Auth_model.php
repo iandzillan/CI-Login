@@ -1,6 +1,6 @@
 <?php
 
-class User extends CI_Model
+class Auth_model extends CI_Model
 {
 
 	public function createAccount()
@@ -9,7 +9,7 @@ class User extends CI_Model
 			'name' => htmlspecialchars($this->input->post('fullname', true)),
 			'email' => htmlspecialchars($this->input->post('email', true)),
 			'image' => 'default.svg',
-			'password' => password_hash($this->input->post('password', true), PASSWORD_DEFAULT),
+			'password' => password_hash($this->input->post('password'), PASSWORD_DEFAULT),
 			'role_id' => 2,
 			'is_active' => 1,
 			'date_created' => time()
