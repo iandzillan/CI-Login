@@ -16,7 +16,7 @@ class Admin extends CI_Controller
 		// Get data user from getUserLogin function in User_model
 		$data['user'] = $this->User_model->getUserLogin();
 		// Get data menu from getMenu function in User_model
-		$data['menus'] = $this->User_model->getMenu();
+		$data['sidebar_menus'] = $this->User_model->getMenu();
 
 		// Build page
 		$data['title'] = 'Dashboard';

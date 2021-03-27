@@ -8,8 +8,6 @@ class Auth extends CI_Controller
 		Parent::__construct();
 		// load model user
 		$this->load->model('Auth_model');
-		// load library form_validation
-		$this->load->library('form_validation');
 	}
 
 	public function index()

@@ -9,30 +9,31 @@
 				<div class="sidebar-brand-text mx-3">IDM CI_Login</div>
 			</a>
 
-			<?php foreach ($menus as $menu) :  ?>
+			<?php foreach ($sidebar_menus as $sidebar_menu) :  ?>
 				<!-- Divider -->
 				<hr class="sidebar-divider">
 
 				<!-- Heading -->
 				<div class="sidebar-heading">
-					<?= $menu['menu']; ?>
+					<?= $sidebar_menu['menu']; ?>
 				</div>
 
 				<!-- Query sub menu according menu id -->
 				<?php
 				$this->db->select('*');
 				$this->db->from('user_sub_menu');
-				$this->db->where('menu_id', $menu['id']);
+				$this->db->where('menu_id', $sidebar_menu['id']);
 				$this->db->where('is_active', 1);
 				$sub_menus = $this->db->get()->result_array();
 				?>
 
 				<?php foreach ($sub_menus as $sub_menu) : ?>
 					<!-- Nav Item - Sub menu -->
-					<li class="nav-item">
+					<li class="nav-item <?= ($sub_menu['title'] == $title) ? 'active' : '' ?>">
 						<a class="nav-link" href="<?= $sub_menu['url']; ?>">
 							<i class="<?= $sub_menu['icon']; ?>"></i>
-							<span><?= $sub_menu['title']; ?></span></a>
+							<span><?= $sub_menu['title']; ?></span>
+						</a>
 					</li>
 				<?php endforeach; ?>
 
