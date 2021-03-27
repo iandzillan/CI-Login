@@ -13,8 +13,11 @@ class User extends CI_Controller
 
 	public function index()
 	{
-		// Get data user login
+		// Get data user from getUserLogin function in User_model
 		$data['user'] = $this->User_model->getUserLogin();
+		// Get data menu from getMenu function in User_model
+		$data['menus'] = $this->User_model->getMenu();
+
 		// Build page
 		$data['title'] = 'My Profile';
 		$this->load->view('templates/header', $data);

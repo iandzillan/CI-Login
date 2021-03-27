@@ -9,42 +9,34 @@
 				<div class="sidebar-brand-text mx-3">IDM CI_Login</div>
 			</a>
 
-			<!-- Divider -->
-			<hr class="sidebar-divider">
+			<?php foreach ($menus as $menu) :  ?>
+				<!-- Divider -->
+				<hr class="sidebar-divider">
 
-			<!-- Heading -->
-			<div class="sidebar-heading">
-				Admin Menu
-			</div>
+				<!-- Heading -->
+				<div class="sidebar-heading">
+					<?= $menu['menu']; ?>
+				</div>
 
-			<!-- Nav Item - Dashboard -->
-			<li class="nav-item">
-				<a class="nav-link" href="charts.html">
-					<i class="fas fa-fw fa-chart-area"></i>
-					<span>Dashboard</span></a>
-			</li>
+				<!-- Query sub menu according menu id -->
+				<?php
+				$this->db->select('*');
+				$this->db->from('user_sub_menu');
+				$this->db->where('menu_id', $menu['id']);
+				$this->db->where('is_active', 1);
+				$sub_menus = $this->db->get()->result_array();
+				?>
 
-			<!-- Divider -->
-			<hr class="sidebar-divider">
+				<?php foreach ($sub_menus as $sub_menu) : ?>
+					<!-- Nav Item - Sub menu -->
+					<li class="nav-item">
+						<a class="nav-link" href="<?= $sub_menu['url']; ?>">
+							<i class="<?= $sub_menu['icon']; ?>"></i>
+							<span><?= $sub_menu['title']; ?></span></a>
+					</li>
+				<?php endforeach; ?>
 
-			<!-- Heading -->
-			<div class="sidebar-heading">
-				User Menu
-			</div>
-
-			<!-- Nav Item - Charts -->
-			<li class="nav-item">
-				<a class="nav-link" href="charts.html">
-					<i class="fas fa-fw fa-chart-area"></i>
-					<span>Charts</span></a>
-			</li>
-
-			<!-- Nav Item - Tables -->
-			<li class="nav-item">
-				<a class="nav-link" href="tables.html">
-					<i class="fas fa-fw fa-table"></i>
-					<span>Tables</span></a>
-			</li>
+			<?php endforeach; ?>
 
 			<!-- Divider -->
 			<hr class="sidebar-divider d-none d-md-block">

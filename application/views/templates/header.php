@@ -9,6 +9,8 @@
 	<meta name="description" content="">
 	<meta name="author" content="">
 
+	<link rel="icon" href="<?= base_url('assets/img/icon/free-code-camp-brands.svg') ?>">
+
 	<title><?= $title; ?></title>
 
 	<!-- Custom fonts for this template-->
