@@ -49,4 +49,51 @@ class Menu extends CI_Controller
 			redirect('menu');
 		}
 	}
+
+	public function edit($id)
+	{
+		// Get data user from getUserLogin function in User_model
+		$data['user'] = $this->User_model->getUserLogin();
+		// Get data menu from getMenu function in User_model
+		$data['sidebar_menus'] = $this->User_model->getMenu();
+		// Get data menu by id
+		$data['menu'] = $this->Menu_model->getId($id);
+		// Build the page
+		$data['title'] = 'Edit Menu';
+		$this->load->view('templates/header', $data);
+		$this->load->view('templates/sidebar', $data);
+		$this->load->view('templates/topbar', $data);
+		$this->load->view('admin/menu/edit', $data);
+		$this->load->view('templates/footer');
+	}
+
+	public function update($id)
+	{
+		// Set validation
+		$this->form_validation->set_rules('menu', 'Menu', 'required', [
+			'required' => '%s field is required!'
+		]);
+		// Check validation
+		if ($this->form_validation->run() == false) {
+			// If validation fail, back to edit page
+			return $this->edit($id);
+		} else {
+			// If validation success, run update function from Menu Model
+			$this->Menu_model->update($id);
+			// Set flash message
+			$this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Menu successfully updated!</div>');
+			// Redirect to menu index
+			redirect('menu');
+		}
+	}
+
+	public function delete($id)
+	{
+		// Run delete function from Menu_model
+		$this->Menu_model->delete($id);
+		// Set flash message
+		$this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Menu successfully deleted!</div>');
+		// Redirect menu index
+		redirect('menu');
+	}
 }
