@@ -66,7 +66,7 @@
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="addModalLabel">Add New Menu</h5>
+				<h5 class="modal-title" id="addModalLabel">Add New Sub Menu</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
@@ -74,32 +74,38 @@
 			<form action="<?= base_url('menu/add') ?>" method="POST">
 				<div class="modal-body">
 					<div class="form-group">
-						<label for="menu">Sub Menu</label>
-						<input type="text" class="form-control" id="menu" name="menu">
+						<label for="title">Sub Menu</label>
+						<input type="text" class="form-control" id="title" name="title">
 					</div>
 					<div class="form-group">
-						<label for="menu">URL</label>
-						<input type="text" class="form-control" id="menu" name="menu">
+						<label for="url">URL</label>
+						<input type="text" class="form-control" id="url" name="url">
 					</div>
 					<div class="form-group">
-						<label for="menu">Icon</label>
-						<input type="text" class="form-control" id="menu" name="menu">
+						<label for="icon">Icon</label>
+						<input type="text" class="form-control" id="icon" name="icon">
 					</div>
 					<div class="form-group">
-						<label for="menu">Is Active</label>
-						<input type="text" class="form-control" id="menu" name="menu">
-					</div>
-					<div class="form-group">
-						<label for="menu">Menu</label>
-						<select class="custom-select" id="menu_id" name="menu_id">
-							<option selected>Open this select menu</option>
+						<label for="menu_id">Menu</label>
+						<select name="menu_id" id="menu_id" class="custom-select">
+							<option value="">Choose</option>
+							<?php foreach ($menu_id as $row) : ?>
+								<option value="<?= $row['id']; ?>"><?= $row['menu']; ?></option>
+							<?php endforeach; ?>
 						</select>
 					</div>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-					<button type="submit" class="btn btn-primary">Submit</button>
-				</div>
+					<div class="form-group">
+						<div class="form-check">
+							<input class="form-check-input" type="checkbox" value="1" id="is_active" name="is_active" checked>
+							<label class="form-check-label" for="is_active">
+								Active?
+							</label>
+						</div </div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+						<button type="submit" class="btn btn-primary">Submit</button>
+					</div>
 			</form>
 		</div>
 	</div>

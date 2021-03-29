@@ -26,7 +26,7 @@ class Menu extends CI_Controller
 		$this->load->view('templates/sidebar', $data);
 		$this->load->view('templates/topbar', $data);
 		$this->load->view('admin/menu/index', $data);
-		$this->load->view('templates/footer');
+		$this->load->view('templates/footer', $data);
 	}
 
 	public function add()
@@ -38,8 +38,21 @@ class Menu extends CI_Controller
 
 		// Check Validation
 		if ($this->form_validation->run() == false) {
-			// If validation fail, back to menu index
-			$this->index();
+			// If validation fail, show modal
+			$data['modal_show'] = "$('#modal-fade').modal('show');";
+			// Get data user from getUserLogin function in User_model
+			$data['user'] = $this->User_model->getUserLogin();
+			// Get data menu from getMenu function in User_model
+			$data['sidebar_menus'] = $this->User_model->getMenu();
+			// Get data menu from Menu_model
+			$data['menus'] = $this->Menu_model->getAllMenu();
+			// Build page
+			$data['title'] = 'Manage Menu';
+			$this->load->view('templates/header', $data);
+			$this->load->view('templates/sidebar', $data);
+			$this->load->view('templates/topbar', $data);
+			$this->load->view('admin/menu/index', $data);
+			$this->load->view('templates/footer', $data);
 		} else {
 			// If validation success, call addMenu() function from Menu_model
 			$this->Menu_model->addMenu();

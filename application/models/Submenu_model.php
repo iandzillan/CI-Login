@@ -13,6 +13,11 @@ class Submenu_model extends CI_Model
 
 	public function dropdownMenu()
 	{
-		return $this->db->get('user_menu');
+		return  $this->db->get('user_menu')->result_array();
+		// $value[''] = 'Choose';
+		// foreach ($query as $option) {
+		// 	$value[$option['id']] = $option['menu'];
+		// }
+		// return $value;
 	}
 }

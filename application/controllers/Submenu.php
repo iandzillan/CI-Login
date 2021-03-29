@@ -21,7 +21,7 @@ class Submenu extends CI_Controller
 		// Get data all sub menu
 		$data['sub_menus'] = $this->Submenu_model->getSubmenu();
 		// Get data menu from dropdownMenu in Submenu_model
-		$data['menus'] = $this->Submenu_model->dropdownMenu();
+		$data['menu_id'] = $this->Submenu_model->dropdownMenu();
 		// Build page
 		$data['title'] = 'Manage Sub Menu';
 		$this->load->view('templates/header', $data);

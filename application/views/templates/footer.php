@@ -58,6 +58,13 @@
 <!-- Page level custom scripts -->
 <script src="<?= base_url('assets') ?>/js/demo/datatables-demo.js"></script>
 
+<!-- Modal_show script -->
+<script>
+	<?php if ($modal_show) : ?>
+		<?= $modal_show; ?>
+	<?php endif; ?>
+</script>
+
 </body>
 
 </html>
