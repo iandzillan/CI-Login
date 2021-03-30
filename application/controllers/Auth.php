@@ -6,7 +6,7 @@ class Auth extends CI_Controller
 	public function __construct()
 	{
 		Parent::__construct();
-		// load model user
+		// load Auth_model
 		$this->load->model('Auth_model');
 	}
 
@@ -145,5 +145,23 @@ class Auth extends CI_Controller
 		$this->session->set_flashdata('message', '<div class="alert alert-success" role="alert"> You are log out!</div>');
 		// Redirect to login page
 		redirect('auth');
+	}
+
+	public function block()
+	{
+		// Load User_model
+		$this->load->model('User_model');
+		// Get data user from getUserLogin function in User_model
+		$data['user'] = $this->User_model->getUserLogin();
+		// Get data menu from getMenu function in User_model
+		$data['sidebar_menus'] = $this->User_model->getMenu();
+
+		// Build page
+		$data['title'] = 'Access Block';
+		$this->load->view('templates/header', $data);
+		$this->load->view('templates/sidebar', $data);
+		$this->load->view('templates/topbar', $data);
+		$this->load->view('auth/block', $data);
+		$this->load->view('templates/footer');
 	}
 }

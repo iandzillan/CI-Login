@@ -4,7 +4,7 @@
 	<div class="col-md-6 pl-0">
 		<!-- Page Heading -->
 		<h1 class="h3 text-gray-800"><?= $title; ?></h1>
-		<a href="" class="btn btn-primary mb-3 addMenu" data-toggle="modal" data-target="#modal-fade">Add New Menu</a>
+		<a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#modal-fade">Add New Menu</a>
 		<?php if ($this->session->flashdata('message')) : ?>
 			<?= $this->session->flashdata('message'); ?>
 			<?php $this->session->unset_userdata('message') ?>

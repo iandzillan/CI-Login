@@ -7,11 +7,16 @@ class Menu extends CI_Controller
 	{
 		// Call the parent class of construct
 		Parent::__construct();
+		// Call is_logged_in helper from idm_helper to check session adn user role. This helper can be found in folder application/helpers
+		is_logged_in();
 		// Load Menu_model
 		$this->load->model('Menu_model');
 		// Load User_model
 		$this->load->model('User_model');
+		// load submenu_model
+		$this->load->model('Submenu_model');
 	}
+
 	public function index()
 	{
 		// Get data user from getUserLogin function in User_model
@@ -108,5 +113,70 @@ class Menu extends CI_Controller
 		$this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Menu successfully deleted!</div>');
 		// Redirect menu index
 		redirect('menu');
+	}
+
+	public function submenu()
+	{
+		// Get data user from getUserLogin function in User_model
+		$data['user'] = $this->User_model->getUserLogin();
+		// Get data menu from getMenu function in User_model
+		$data['sidebar_menus'] = $this->User_model->getMenu();
+		// Get data all sub menu
+		$data['sub_menus'] = $this->Submenu_model->getSubmenu();
+		// Get data menu from dropdownMenu in Submenu_model
+		$data['menu_id'] = $this->Submenu_model->dropdownMenu();
+		// Build page
+		$data['title'] = 'Manage Sub Menu';
+		$this->load->view('templates/header', $data);
+		$this->load->view('templates/sidebar', $data);
+		$this->load->view('templates/topbar', $data);
+		$this->load->view('admin/submenu/index', $data);
+		$this->load->view('templates/footer', $data);
+	}
+
+	public function addSubmenu()
+	{
+		// Set the validation
+		$this->form_validation->set_rules('title', 'sub menu', 'required');
+		$this->form_validation->set_rules('url', 'url', 'required');
+		$this->form_validation->set_rules('icon', 'icon', 'required');
+		$this->form_validation->set_rules('menu_id', 'menu', 'required');
+		// Check validation
+		if ($this->form_validation->run() == false) {
+			// If validation fail, show the modal
+			$data['modal_show'] = "$('#modal-fade').modal('show');";
+			// Get data user from getUserLogin function in User_model
+			$data['user'] = $this->User_model->getUserLogin();
+			// Get data menu from getMenu function in User_model
+			$data['sidebar_menus'] = $this->User_model->getMenu();
+			// Get data all sub menu
+			$data['sub_menus'] = $this->Submenu_model->getSubmenu();
+			// Get data menu from dropdownMenu in Submenu_model
+			$data['menu_id'] = $this->Submenu_model->dropdownMenu();
+			// Build page
+			$data['title'] = 'Manage Sub Menu';
+			$this->load->view('templates/header', $data);
+			$this->load->view('templates/sidebar', $data);
+			$this->load->view('templates/topbar', $data);
+			$this->load->view('admin/submenu/index', $data);
+			$this->load->view('templates/footer', $data);
+		} else {
+			// If validation success, run add function from Submenu_model
+			$this->Submenu_model->add();
+			// Give flash message
+			$this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Sub menu successfully added!</div>');
+			// Redirect to submenu index
+			redirect('menu/submenu');
+		}
+	}
+
+	public function deleteSubmenu($id)
+	{
+		// run delete function from Submenu_model
+		$this->Submenu_model->delete($id);
+		// Give flash message
+		$this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Sub menu successfully deleted!</div>');
+		// redirect to menu/submenu
+		redirect('menu/submenu');
 	}
 }

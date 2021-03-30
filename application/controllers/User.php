@@ -7,6 +7,8 @@ class User extends CI_Controller
 	{
 		// Call __cunstruct funtion from parent class 
 		Parent::__construct();
+		// Call is_logged_in helper from idm_helper to check session adn user role. This helper can be found in folder application/helpers
+		is_logged_in();
 		// Load User_model
 		$this->load->model('User_model');
 	}
