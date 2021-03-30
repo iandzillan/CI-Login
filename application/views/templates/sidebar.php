@@ -8,10 +8,10 @@
 				</div>
 				<div class="sidebar-brand-text mx-3">IDM CI_Login</div>
 			</a>
+			<!-- Divider -->
+			<hr class="sidebar-divider">
 
 			<?php foreach ($sidebar_menus as $sidebar_menu) :  ?>
-				<!-- Divider -->
-				<hr class="sidebar-divider">
 
 				<!-- Heading -->
 				<div class="sidebar-heading">
@@ -30,17 +30,17 @@
 				<?php foreach ($sub_menus as $sub_menu) : ?>
 					<!-- Nav Item - Sub menu -->
 					<li class="nav-item <?= ($sub_menu['title'] == $title) ? 'active' : '' ?>">
-						<a class="nav-link" href="<?= base_url($sub_menu['url']) ?>">
+						<a class="nav-link pb-0" href="<?= base_url($sub_menu['url']) ?>">
 							<i class="<?= $sub_menu['icon']; ?>"></i>
 							<span><?= $sub_menu['title']; ?></span>
 						</a>
 					</li>
 				<?php endforeach; ?>
 
+				<!-- Divider -->
+				<hr class="sidebar-divider mt-1">
 			<?php endforeach; ?>
 
-			<!-- Divider -->
-			<hr class="sidebar-divider d-none d-md-block">
 			<!-- Nav Item - Logout -->
 			<li class="nav-item">
 				<a class="nav-link" href="#" data-toggle="modal" data-target="#logoutModal">

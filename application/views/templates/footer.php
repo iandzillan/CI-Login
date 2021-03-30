@@ -64,6 +64,35 @@
 		<?= $modal_show; ?>
 	<?php endif; ?>
 </script>
+<!-- End of modal show script -->
+
+<!-- Change access script -->
+<script>
+	// Get the tag input with class form-check-input, if it clicked, run the function
+	$('.form-check-input').on('click', function() {
+		// Get the data menu
+		const menuId = $(this).data('menu');
+		// Get the data role
+		const roleId = $(this).data('role');
+		// Run ajax
+		$.ajax({
+			// Set the url to send the data
+			url: "<?= base_url('admin/changeaccess') ?>",
+			// Set type of send method
+			type: "post",
+			// Set the data which will to be send to the url
+			data: {
+				menuId: menuId,
+				roleId: roleId
+			},
+			// Set condition if send data success
+			success: function() {
+				// Redirect to role access page
+				window.location.href = "<?= base_url('admin/roleaccess/') ?>" + roleId;
+			}
+		});
+	});
+</script>
 
 </body>
 

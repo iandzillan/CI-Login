@@ -30,7 +30,7 @@ class Menu extends CI_Controller
 		$this->load->view('templates/header', $data);
 		$this->load->view('templates/sidebar', $data);
 		$this->load->view('templates/topbar', $data);
-		$this->load->view('admin/menu/index', $data);
+		$this->load->view('menu/index', $data);
 		$this->load->view('templates/footer', $data);
 	}
 
@@ -56,7 +56,7 @@ class Menu extends CI_Controller
 			$this->load->view('templates/header', $data);
 			$this->load->view('templates/sidebar', $data);
 			$this->load->view('templates/topbar', $data);
-			$this->load->view('admin/menu/index', $data);
+			$this->load->view('menu/index', $data);
 			$this->load->view('templates/footer', $data);
 		} else {
 			// If validation success, call addMenu() function from Menu_model
@@ -81,7 +81,7 @@ class Menu extends CI_Controller
 		$this->load->view('templates/header', $data);
 		$this->load->view('templates/sidebar', $data);
 		$this->load->view('templates/topbar', $data);
-		$this->load->view('admin/menu/edit', $data);
+		$this->load->view('menu/edit', $data);
 		$this->load->view('templates/footer');
 	}
 
@@ -130,7 +130,7 @@ class Menu extends CI_Controller
 		$this->load->view('templates/header', $data);
 		$this->load->view('templates/sidebar', $data);
 		$this->load->view('templates/topbar', $data);
-		$this->load->view('admin/submenu/index', $data);
+		$this->load->view('menu/submenu', $data);
 		$this->load->view('templates/footer', $data);
 	}
 
@@ -158,7 +158,7 @@ class Menu extends CI_Controller
 			$this->load->view('templates/header', $data);
 			$this->load->view('templates/sidebar', $data);
 			$this->load->view('templates/topbar', $data);
-			$this->load->view('admin/submenu/index', $data);
+			$this->load->view('menu/submenu', $data);
 			$this->load->view('templates/footer', $data);
 		} else {
 			// If validation success, run add function from Submenu_model

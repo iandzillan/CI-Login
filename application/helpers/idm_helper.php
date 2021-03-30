@@ -31,3 +31,19 @@ function is_logged_in()
 		}
 	}
 }
+
+function check_access($role_id, $menu_id)
+{
+	// Call library CI to use in this helper
+	$idm = get_instance();
+	// Query to user_access_menu according $role_id and $menu_id
+	$query = $idm->db->get_where('user_access_menu', [
+		'role_id' => $role_id,
+		'menu_id' => $menu_id
+	]);
+	// Check total the rows from query $query
+	if ($query->num_rows() > 0) {
+		// If total rows greater than 1, return checked
+		return "checked='checked'";
+	}
+}

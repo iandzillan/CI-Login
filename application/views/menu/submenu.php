@@ -39,7 +39,7 @@
 									<td><?= $sub_menu['title']; ?></td>
 									<td><?= $sub_menu['menu']; ?></td>
 									<td><?= $sub_menu['url']; ?></td>
-									<td><i class="<?= $sub_menu['icon']; ?>"></i></td>
+									<td class="text-center"><i class="<?= $sub_menu['icon']; ?>"></i></td>
 									<td>
 										<?php if ($sub_menu['is_active'] == 1) : ?>
 											Active
@@ -81,16 +81,6 @@
 						<?= form_error('title', '<div class="invalid-feedback">', '</div>') ?>
 					</div>
 					<div class="form-group">
-						<label for="url">URL</label>
-						<input type="text" class="form-control <?= (form_error('url')) ? 'is-invalid' : ''; ?>" id="url" name="url">
-						<?= form_error('url', '<div class="invalid-feedback">', '</div>') ?>
-					</div>
-					<div class="form-group">
-						<label for="icon">Icon</label>
-						<input type="text" class="form-control <?= (form_error('icon')) ? 'is-invalid' : ''; ?>" id="icon" name="icon">
-						<?= form_error('icon', '<div class="invalid-feedback">', '</div>') ?>
-					</div>
-					<div class="form-group">
 						<label for="menu_id">Menu</label>
 						<select name="menu_id" id="menu_id" class="custom-select <?= (form_error('menu_id')) ? 'is-invalid' : ''; ?>">
 							<option value="">Choose</option>
@@ -99,6 +89,16 @@
 							<?php endforeach; ?>
 						</select>
 						<?= form_error('menu_id', '<div class="invalid-feedback">', '</div>') ?>
+					</div>
+					<div class="form-group">
+						<label for="url">URL</label>
+						<input type="text" class="form-control <?= (form_error('url')) ? 'is-invalid' : ''; ?>" id="url" name="url">
+						<?= form_error('url', '<div class="invalid-feedback">', '</div>') ?>
+					</div>
+					<div class="form-group">
+						<label for="icon">Icon</label>
+						<input type="text" class="form-control <?= (form_error('icon')) ? 'is-invalid' : ''; ?>" id="icon" name="icon">
+						<?= form_error('icon', '<div class="invalid-feedback">', '</div>') ?>
 					</div>
 					<div class="form-group">
 						<div class="form-check">
@@ -132,9 +132,9 @@
 				</div>
 				<form action="<?= base_url('menu/deletesubmenu/' . $sub_menu['id']) ?>" method="POST">
 					<div class="modal-body">
-						<p>Sub Menu: <?= $sub_menu['title']; ?></p>
+						<p>Sub Menu: <b><?= $sub_menu['title']; ?></b></p>
 						<p>from</p>
-						<p>Menu: <?= $sub_menu['menu']; ?></p>
+						<p>Menu: <b><?= $sub_menu['menu']; ?></b></p>
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
