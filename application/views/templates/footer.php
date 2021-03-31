@@ -85,7 +85,7 @@
 				menuId: menuId,
 				roleId: roleId
 			},
-			// Set condition if send data success
+			// Set condition if send data success 
 			success: function() {
 				// Redirect to role access page
 				window.location.href = "<?= base_url('admin/roleaccess/') ?>" + roleId;
@@ -93,6 +93,31 @@
 		});
 	});
 </script>
+
+<!-- Bootstrap file browse script -->
+<script>
+	$('.custom-file-input').on('change', function() {
+		let filename = $(this).val().split('\\').pop();
+		$(this).next('.custom-file-label').addClass("selected").html(filename);
+	});
+</script>
+<!-- End of bootstrap file browse script -->
+
+<!-- Img-preview script -->
+<script>
+	function previewImg() {
+		const image = document.querySelector('#image');
+		const imgPreview = document.querySelector('.img-preview');
+
+		const fileSampul = new FileReader();
+		fileSampul.readAsDataURL(image.files[0]);
+
+		fileSampul.onload = function(e) {
+			imgPreview.src = e.target.result;
+		}
+	}
+</script>
+<!-- End of img-preview script -->
 
 </body>
 

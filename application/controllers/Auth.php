@@ -12,6 +12,12 @@ class Auth extends CI_Controller
 
 	public function index()
 	{
+		// Check there is session or not
+		if ($this->session->userdata('role_id') == 1) {
+			redirect('admin');
+		} else if ($this->session->userdata('role_id') == 2) {
+			redirect('user');
+		}
 		// build page
 		$data['title'] = 'Login | IDM';
 		$this->load->view('auth/templates/header', $data);
@@ -21,6 +27,12 @@ class Auth extends CI_Controller
 
 	public function register()
 	{
+		// Check there is session or not
+		if ($this->session->userdata('role_id') == 1) {
+			redirect('admin');
+		} else if ($this->session->userdata('role_id') == 2) {
+			redirect('user');
+		}
 		// build page
 		$data['title'] = 'Registration | IDM';
 		$this->load->view('auth/templates/header', $data);
