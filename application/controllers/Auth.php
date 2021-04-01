@@ -68,11 +68,69 @@ class Auth extends CI_Controller
 		} else {
 			// If validation success, call createAccount function from User model to store data to database
 			$this->Auth_model->createAccount();
+			// Set token for verify email
+			$token = base64_encode(random_bytes(32));
+			// Call userToken function from Auth_model
+			$this->Auth_model->userToken($token);
+			// Run the send email function with argument token and which function for
+			$this->_sendEmail($token, 'verify');
 			// Set flashdata
 			$this->session->set_flashdata('message', '<div class="alert alert-success" role="alert"> Your account has been created, please check your email to activated your account!</div>');
 			// Redirect to login page
 			redirect('auth');
 		}
+	}
+
+	private function _sendEmail($token, $type)
+	{
+		// Load library email with the config
+		$this->load->library('email');
+		// Email configuration
+		$config = [
+			'protocol' 	=> 'smtp',
+			'smtp_host' => 'ssl://smtp.googlemail.com',
+			'smtp_user' => 'ithelpdesk.lbe@gmail.com',
+			'smtp_pass' => 'Kazuma1234@',
+			'smtp_port' => 465,
+			'mailtype' 	=> 'html',
+			'charset' 	=> 'utf-8',
+			'newline' 	=> "\r\n",
+		];
+		// initialize the cofig
+		$this->email->initialize($config);
+		// Set our email
+		$this->email->from('ithelpdesk.lbe@gmail.com', 'IDM Web Programming');
+		// Set the receiver email
+		$this->email->to($this->input->post('email'));
+		// Check the type of email
+		if ($type == 'verify') {
+			// If type email is verify, Set the link verification
+			$data['verify'] = base_url('auth/verify?email=' . $this->input->post('email') . '&token=' . $token);
+			// Get the template email
+			$email_verify = $this->load->view('templates/email-verify', $data, true);
+			//Set the subject
+			$this->email->subject('User Activation');
+			// Set the message
+			$this->email->message($email_verify);
+		}
+		// Check is email sended or not
+		if ($this->email->send()) {
+			// If email successfully sended, return true
+			return true;
+		} else {
+			// If email not send, print error debugger
+			echo $this->email->print_debugger();
+		}
+	}
+
+	public function verify()
+	{
+		// Run verify function from Auth_model()
+		$this->Auth_model->verify();
+		// Give message
+		$this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Your account has been activated. Please Login!</div>');
+		// Redirect to login page
+		redirect('auth');
 	}
 
 	public function login()
@@ -130,19 +188,19 @@ class Auth extends CI_Controller
 					redirect('user');
 				} else {
 					// If password false, give the information
-					$this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert"> Your password is wrong!</div>');
+					$this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Your password is wrong!</div>');
 					// Redirect to login page
 					redirect('auth');
 				}
 			} else {
 				// If email is not actived yet, give the information
-				$this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert"> Your email is not activated yet, please check your email!</div>');
+				$this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Your email is not activated yet, please check your email!</div>');
 				// Redirect to login page
 				redirect('auth');
 			}
 		} else {
 			// If email is not registered yet, give the information
-			$this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert"> Your email is not registered yet, please register your email!</div>');
+			$this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Your email is not registered yet, please register your email!</div>');
 			// Redirect to login page
 			redirect('auth');
 		}
@@ -154,7 +212,7 @@ class Auth extends CI_Controller
 		$this->session->unset_userdata('email');
 		$this->session->unset_userdata('role_id');
 		// Give flash message
-		$this->session->set_flashdata('message', '<div class="alert alert-success" role="alert"> You are log out!</div>');
+		$this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">You are log out!</div>');
 		// Redirect to login page
 		redirect('auth');
 	}

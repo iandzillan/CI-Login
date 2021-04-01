@@ -19,7 +19,6 @@ class User extends CI_Controller
 		$data['user'] = $this->User_model->getUserLogin();
 		// Get data menu from getMenu function in User_model
 		$data['sidebar_menus'] = $this->User_model->getMenu();
-
 		// Build page
 		$data['title'] = 'My Profile';
 		$this->load->view('templates/header', $data);
@@ -35,7 +34,6 @@ class User extends CI_Controller
 		$data['user'] = $this->User_model->getUserLogin();
 		// Get data menu from getMenu function in User_model
 		$data['sidebar_menus'] = $this->User_model->getMenu();
-
 		// Build page
 		$data['title'] = 'Edit Profile';
 		$this->load->view('templates/header', $data);
@@ -58,7 +56,7 @@ class User extends CI_Controller
 			$this->User_model->update();
 			// Give flash message
 			$this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Your profile successfully updated!</div>');
-			// Redirect to submenu index
+			// Redirect to user index
 			redirect('user');
 		}
 	}
@@ -69,7 +67,6 @@ class User extends CI_Controller
 		$data['user'] = $this->User_model->getUserLogin();
 		// Get data menu from getMenu function in User_model
 		$data['sidebar_menus'] = $this->User_model->getMenu();
-
 		// Build page
 		$data['title'] = 'Change Password';
 		$this->load->view('templates/header', $data);
@@ -89,11 +86,11 @@ class User extends CI_Controller
 		if ($this->form_validation->run() == false) {
 			$this->changePassword();
 		} else {
-			// If validation success, sun changePassword function from User_model
+			// If validation success, run changePassword function from User_model
 			$this->User_model->changePassword();
 			// Give flash message
 			$this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Your password successfully changed!</div>');
-			// Redirect to submenu index
+			// Redirect to user/changpassword
 			redirect('user/changepassword');
 		}
 	}

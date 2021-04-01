@@ -69,14 +69,24 @@ class User_model extends CI_Model
 		$user = $this->getUserLogin();
 		// Get password from input user
 		$cur_password = $this->input->post('password');
+		// Get new password from input user
+		$new_password = $this->input->post('password1');
 		// Check is password match or not with user password
 		if (password_verify($cur_password, $user['password'])) {
-			// If password match, get new password from input user
-			$new_password = password_hash($this->input->post('password1'), PASSWORD_DEFAULT);
-			// Update the password
-			$this->db->set('password', $new_password);
-			$this->db->where('email', $user['email']);
-			$this->db->update('user');
+			// If password match, check is password same with new password or not
+			if ($cur_password == $new_password) {
+				// If current password same with new password, give the error message
+				$this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">You can not entered new password with your old password!</div>');
+				// Redirect to user/changepassword
+				redirect('user/changepassword');
+			} else {
+				// If current password different with new password, store new password to satabase
+				$fix_password = password_hash($new_password, PASSWORD_DEFAULT);
+				// Update the password
+				$this->db->set('password', $fix_password);
+				$this->db->where('email', $user['email']);
+				$this->db->update('user');
+			}
 		} else {
 			// Give flash message
 			$this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">You entered the wrong current password!</div>');
