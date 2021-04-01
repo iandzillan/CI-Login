@@ -10,31 +10,24 @@
 							<div class="col-lg">
 								<div class="p-5">
 									<div class="text-center">
-										<h1 class="h4 text-gray-900 mb-4">CI Login</h1>
+										<h1 class="h4 text-gray-900 mb-4">Reset Password</h1>
 										<?php if ($this->session->flashdata('message')) : ?>
 											<?= $this->session->flashdata('message'); ?>
 											<?php $this->session->unset_userdata('message') ?>
 										<?php endif; ?>
 									</div>
-									<form class="user" method="POST" action="<?= base_url('auth/login') ?>">
+									<form class="user" method="POST" action="<?= base_url('auth/requestpass') ?>">
 										<div class="form-group">
 											<input type="text" class="form-control form-control-user <?= (form_error('email')) ? 'is-invalid' : '' ?>" id="email" name="email" placeholder="Enter Email Address..." value="<?= set_value('email') ?>">
 											<?= form_error('email', '<div class="invalid-feedback pl-3">', '</div>') ?>
 										</div>
-										<div class="form-group">
-											<input type="password" class="form-control form-control-user <?= (form_error('password')) ? 'is-invalid' : '' ?>" id="password" name="password" placeholder="Password">
-											<?= form_error('password', '<div class="invalid-feedback pl-3">', '</div>') ?>
-										</div>
 										<button type="submit" class="btn btn-primary btn-user btn-block">
-											Login
+											Send Request
 										</button>
 									</form>
 									<hr>
 									<div class="text-center">
-										<a class="small" href="<?= base_url('auth/forgotpassword') ?>">Forgot Password?</a>
-									</div>
-									<div class="text-center">
-										<a class="small" href="<?= base_url('auth/register') ?>">Create an Account!</a>
+										<a class="small" href="<?= base_url('auth') ?>">Back to login</a>
 									</div>
 								</div>
 							</div>

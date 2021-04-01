@@ -81,6 +81,54 @@ class Auth extends CI_Controller
 		}
 	}
 
+	public function forgotPassword()
+	{
+		// Check there is session or not
+		if ($this->session->userdata('role_id') == 1) {
+			redirect('admin');
+		} else if ($this->session->userdata('role_id') == 2) {
+			redirect('user');
+		}
+		// build page
+		$data['title'] = 'Forgot Password | IDM';
+		$this->load->view('auth/templates/header', $data);
+		$this->load->view('auth/forgot-password');
+		$this->load->view('auth/templates/footer');
+	}
+
+	public function requestPass()
+	{
+		// Set the validation
+		$this->form_validation->set_rules('email', 'email', 'required|valid_email|trim');
+		// Check the validation
+		if ($this->form_validation->run() == false) {
+			// If validation fail, back to forgot password page
+			$this->forgotPassword();
+		} else {
+			// If validation success, get the email from input user
+			$email = $this->input->post('email');
+			// check whether the email is in the database or not
+			$user = $this->db->get_where('user', ['email' => $email, 'is_active' => 1])->row_array();
+			if ($user) {
+				// If the email is in the database, create token
+				$token = base64_encode(random_bytes(32));
+				// Call userToken function from Auth_model
+				$this->Auth_model->userToken($token);
+				// Run the send email function with argument token and which function for
+				$this->_sendEmail($token, 'forgotpass');
+				// Set flashdata
+				$this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Your request has been sended. Please check your email!</div>');
+				// Redirect to login page
+				redirect('auth');
+			} else {
+				// If the email is not in the databas, give error message 
+				$this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">The email you entered is not registered or not activated yet!</div>');
+				// Redirect to login page
+				redirect('auth/forgotpassword');
+			}
+		}
+	}
+
 	private function _sendEmail($token, $type)
 	{
 		// Load library email with the config
@@ -105,13 +153,22 @@ class Auth extends CI_Controller
 		// Check the type of email
 		if ($type == 'verify') {
 			// If type email is verify, Set the link verification
-			$data['verify'] = base_url('auth/verify?email=' . $this->input->post('email') . '&token=' . $token);
+			$data['verify'] = base_url('auth/verify?email=' . $this->input->post('email') . '&token=' . urlencode($token));
 			// Get the template email
 			$email_verify = $this->load->view('templates/email-verify', $data, true);
 			//Set the subject
 			$this->email->subject('User Activation');
 			// Set the message
 			$this->email->message($email_verify);
+		} else if ($type == 'forgotpass') {
+			// If the type is forgot password, set the link for forgot password
+			$data['forgotpass'] = base_url('auth/resetpass?email=' . $this->input->post('email') . '&token=' . urlencode($token));
+			// Get the template email
+			$forgot_pass = $this->load->view('templates/email-resetpass', $data, true);
+			//Set the subject
+			$this->email->subject('Reset Password');
+			// Set the message
+			$this->email->message($forgot_pass);
 		}
 		// Check is email sended or not
 		if ($this->email->send()) {
@@ -131,6 +188,40 @@ class Auth extends CI_Controller
 		$this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Your account has been activated. Please Login!</div>');
 		// Redirect to login page
 		redirect('auth');
+	}
+
+	public function resetPass()
+	{
+		// Run resetPass function from Auth_model()
+		$this->Auth_model->resetPass();
+		// Check reset_password session
+		if ($this->session->userdata('reset_password')) {
+			// Set validation
+			$this->form_validation->set_rules('password', 'password', 'required|min_length[6]|matches[password2]');
+			$this->form_validation->set_rules('password2', 'repeat password', 'required|min_length[6]|matches[password]');
+			// check the validation
+			if ($this->form_validation->run() == false) {
+				// If session reset_password exist, build page
+				$data['title'] = 'Reset Password | IDM';
+				$this->load->view('auth/templates/header', $data);
+				$this->load->view('auth/reset-password');
+				$this->load->view('auth/templates/footer');
+			} else {
+				// If validation success, run newpassword function from Auth_model
+				$this->Auth_model->newPassword();
+				// Unset the session
+				$this->session->unset_userdata('reset_password');
+				// Give flash message
+				$this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Password has been changed. Please Login!</div>');
+				// Redirect to login page
+				redirect('auth');
+			}
+		} else {
+			// If session reset_password doesn't exist, give error message
+			$this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Session for reset password expired!</div>');
+			// redirect to auth
+			redirect('auth');
+		}
 	}
 
 	public function login()
